@@ -63,6 +63,21 @@ def prepareEnv(String targetEnv) {
     ).trim()
 }
 
+def deployFunctionApp() {
+    def appName = sh(
+            script: "az functionapp list -g ${config.COMMON_GROUP} --query [0].repositorySiteName | tr -d '\"'",
+            returnStdout: true
+    ).trim()
+
+    sh """
+        export COMMON_GROUP=${config.COMMON_GROUP}
+        export FUNCTION_APP=${appName}
+        mvn clean package
+    """
+
+    azureFunctionAppPublish azureCredentialsId: 'azure-sp', resourceGroup: config.COMMON_GROUP, appName: appName, filePath: '**/*.jar,**/*.json', sourceDirectory: "target/azure-functions/${appName}"
+}
+
 def deployWebApp(String resGroup, String dockerFilePath) {
     def appName = sh(
             script: "az webapp list -g ${resGroup} --query [0].name | tr -d '\"'",
@@ -76,7 +91,7 @@ def deployWebApp(String resGroup, String dockerFilePath) {
         webapp_id=\$(az resource list -g ${resGroup} --resource-type Microsoft.Web/sites --query [0].id | tr -d '"')
 
         # Storage connection for images
-        storage_name=\$(az storage account list -g ${config.COMMON_GROUP} --query [1].name | tr -d '"')
+        storage_name=\$(az storage account list -g ${config.COMMON_GROUP} --query [2].name | tr -d '"')
         storage_conn_str=\$(az storage account show-connection-string -g ${config.COMMON_GROUP} -n \${storage_name} --query connectionString | tr -d '"')
 
         # Redis credentials
@@ -125,19 +140,7 @@ def deployDataApp(String targetEnv, String resGroup) {
         kubectl apply -f target/fabric8/namespace.yml
     """
 
-    acsDeploy azureCredentialsId: 'azure-sp', configFilePaths: 'data-app/target/fabric8/namespace.yml', containerService: 'acs | Kubernetes', enableConfigSubstitution: true, resourceGroupName: resGroup, sshCredentialsId: 'acs-ssh'
-    acsDeploy azureCredentialsId: 'azure-sp', configFilePaths: 'data-app/target/fabric8/deployment.yml', containerService: 'acs | Kubernetes', enableConfigSubstitution: true, resourceGroupName: resGroup, sshCredentialsId: 'acs-ssh'
-    acsDeploy azureCredentialsId: 'azure-sp', configFilePaths: 'data-app/target/fabric8/service.yml', containerService: 'acs | Kubernetes', enableConfigSubstitution: true, resourceGroupName: resGroup, sshCredentialsId: 'acs-ssh'
-
-    // Alternatively, we can use kubernetesDeploy, which is more general
-    // def masterHost = sh(
-    //         script: "az acs show -g ${resGroup} -n 'acs' --query 'masterProfile.fqdn' | tr -d '\"'",
-    //         returnStdout: true
-    // ).trim()
-    // print masterHost
-    // kubernetesDeploy configs: 'data-app/target/fabric8/namespace.yml', credentialsType: 'SSH', kubeConfig: [path: ''], secretName: '', ssh: [sshCredentialsId: 'acs-ssh', sshServer: masterHost], textCredentials: [certificateAuthorityData: '', clientCertificateData: '', clientKeyData: '', serverUrl: 'https://']
-    // kubernetesDeploy configs: 'data-app/target/fabric8/deployment.yml', credentialsType: 'SSH', kubeConfig: [path: ''], secretName: '', ssh: [sshCredentialsId: 'acs-ssh', sshServer: masterHost], textCredentials: [certificateAuthorityData: '', clientCertificateData: '', clientKeyData: '', serverUrl: 'https://']
-    // kubernetesDeploy configs: 'data-app/target/fabric8/service.yml', credentialsType: 'SSH', kubeConfig: [path: ''], secretName: '', ssh: [sshCredentialsId: 'acs-ssh', sshServer: masterHost], textCredentials: [certificateAuthorityData: '', clientCertificateData: '', clientKeyData: '', serverUrl: 'https://']
+    acsDeploy azureCredentialsId: 'azure-sp', configFilePaths: 'data-app/target/fabric8/deployment.yml,data-app/target/fabric8/service.yml', containerService: 'acs | Kubernetes', enableConfigSubstitution: true, resourceGroupName: resGroup, sshCredentialsId: 'acs-ssh'
 
     sh """
         # Check whether there is any redundant IP address
