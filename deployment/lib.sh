@@ -486,6 +486,9 @@ function allow_aks_nsg_access()
 {
   local source_ip=$1
   local resource_group=$2
+  local location=$3
+
+  local rgname=MC_$2_aks_$3
 
   local nsgs=($(az network nsg list --resource-group "$resource_group" --query '[].name' --output tsv | grep -e "^k8s-master-"))
   local port_range=22

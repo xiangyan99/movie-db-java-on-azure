@@ -70,9 +70,9 @@ if [[ -n "$MS_CORP" ]]; then
   # VMs provisioned for the project, so Jenkins slaves will not be able to access
   # the AKS master node through SSH port.
   # This is a fix to this problem.
-  allow_aks_nsg_access "Internet" "${e_us_group}"
-  allow_aks_nsg_access "Internet" "${w_eu_group}"
-  allow_aks_nsg_access "Internet" "${jenkins_group}"
+  allow_aks_nsg_access "Internet" "${e_us_group}" ${EAST_US}
+  allow_aks_nsg_access "Internet" "${w_eu_group}" ${WEST_EUROPE}
+  allow_aks_nsg_access "Internet" "${jenkins_group}" ${EAST_US}
 fi
 
 wait_till_deployment_created ${c_group} master
