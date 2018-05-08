@@ -93,8 +93,8 @@
   "misc": [
     {
       "comment": "Azure container service name.",
-      "key": "ACS_NAME",
-      "value": "acs"
+      "key": "AKS_NAME",
+      "value": "aks"
     }
   ],
 

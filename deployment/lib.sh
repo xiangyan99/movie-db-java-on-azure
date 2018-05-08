@@ -381,16 +381,16 @@ function create_webapp()
 #   None
 # Arguments:
 #   resource_group
-#   acs_name
+#   aks_name
 # Returns:
 #   None
 ##############################################################################
 function create_kubernetes()
 {
   local resource_group=$1
-  local acs_name=$2
-  if [ -z "$(az acs show -g ${resource_group} -n ${acs_name})" ]; then
-    az acs create --orchestrator-type=kubernetes -g ${resource_group} -n ${acs_name} \
+  local aks_name=$2
+  if [ -z "$(az aks show -g ${resource_group} -n ${aks_name})" ]; then
+    az aks create -g ${resource_group} -n ${aks_name} \
                   --generate-ssh-keys --agent-count 1 --no-wait
   fi
 }
@@ -401,14 +401,14 @@ function create_kubernetes()
 #   None
 # Arguments:
 #   resource_group
-#   acs_name
+#   aks_name
 # Returns:
 #   None
 ##############################################################################
 function wait_till_kubernetes_created() {
   local resource_group=$1
-  local acs_name=$2
-  az acs wait -g ${resource_group} -n ${acs_name} --created
+  local aks_name=$2
+  az aks wait -g ${resource_group} -n ${aks_name} --created
   if [ $? != 0 ]; then
     log_error "Something is wrong when provisioning Kubernetes in resource group \"${resource_group}\". Please check out logs in Azure Portal."
     return 1
@@ -424,15 +424,15 @@ function wait_till_kubernetes_created() {
 #   MYSQL_PASSWORD
 # Arguments:
 #   resource_group
-#   acs_name
+#   aks_name
 # Returns:
 #   None
 ##############################################################################
 function create_secrets_in_kubernetes() {
   local resource_group=$1
-  local acs_name=$2
+  local aks_name=$2
 
-  az acs kubernetes get-credentials -g ${resource_group} -n ${acs_name}
+  az aks get-credentials -g ${resource_group} -n ${aks_name}
 
   if [ -z "$(kubectl get ns ${TARGET_ENV} --ignore-not-found)" ]; then
     kubectl create ns ${TARGET_ENV} --save-config
@@ -458,7 +458,7 @@ function create_secrets_in_kubernetes() {
 #   GROUP_SUFFIX
 # Arguments:
 #   resource_group
-#   acs_name
+#   aks_name
 # Returns:
 #   None
 ##############################################################################
@@ -475,7 +475,7 @@ function deploy_jenkins()
 }
 
 ##############################################################################
-# Add network security group rule to allow the given IP to access the ACS
+# Add network security group rule to allow the given IP to access the AKS
 # master SSH service.
 # Globals:
 #   None
@@ -485,7 +485,7 @@ function deploy_jenkins()
 # Returns:
 #   None
 ##############################################################################
-function allow_acs_nsg_access()
+function allow_aks_nsg_access()
 {
   local source_ip=$1
   local resource_group=$2
@@ -515,15 +515,15 @@ function allow_acs_nsg_access()
 #   None
 # Arguments:
 #   resource_group
-#   acs_name
+#   aks_name
 # Returns:
 #   None
 ##############################################################################
 function create_secrets_in_jenkins_kubernetes() {
   local resource_group=$1
-  local acs_name=$2
+  local aks_name=$2
 
-  az acs kubernetes get-credentials -g ${resource_group} -n ${acs_name}
+  az aks get-credentials -g ${resource_group} -n ${aks_name}
 
   if [ -z "$(kubectl get ns jenkins --ignore-not-found)" ]; then
     kubectl create ns jenkins --save-config
@@ -579,15 +579,15 @@ function check_jenkins_readiness()
 #   JENKINS_URL
 # Arguments:
 #   resource_group
-#   acs_name
+#   aks_name
 # Returns:
 #   None
 ##############################################################################
 function export_jenkins_url()
 {
   local resource_group=$1
-  local acs_name=$2
-  az acs kubernetes get-credentials -g ${resource_group} -n ${acs_name}
+  local aks_name=$2
+  az aks get-credentials -g ${resource_group} -n ${aks_name}
   export JENKINS_URL=$(kubectl get svc -o jsonpath={.items[*].status.loadBalancer.ingress[0].ip} --namespace=jenkins)
 }
 
@@ -724,7 +724,7 @@ function export_data_api_url()
 {
   local namespace=$1
   local resource_group=$2
-  local k8_context=$(az acs list -g ${resource_group} --query [0].masterProfile.dnsPrefix | tr '[:upper:]' '[:lower:]' | tr -d '"')
+  local k8_context=$(az aks list -g ${resource_group} --query [0].masterProfile.dnsPrefix | tr '[:upper:]' '[:lower:]' | tr -d '"')
   kubectl config use-context ${k8_context} > /dev/null
   export DATA_API_URL=$(kubectl get services -o jsonpath={.items[*].status.loadBalancer.ingress[0].ip} --namespace=${namespace})
 }

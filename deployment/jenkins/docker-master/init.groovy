@@ -196,7 +196,7 @@ Thread.start {
     this.configureKubernetes()
     this.addACRCredential('acr', '/etc/kubernetes/azure.json')
     this.addAzureCredential('azure-sp', '/etc/kubernetes/azure.json')
-    this.addSSHCredential('acs-ssh')
+    this.addSSHCredential('aks-ssh')
     // Set number of executor to 0 so that slave agents will be created for each build
     this.setExecutorNum(0)
     // Setup security
