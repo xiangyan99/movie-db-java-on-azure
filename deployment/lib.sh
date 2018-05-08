@@ -391,7 +391,7 @@ function create_kubernetes()
   local aks_name=$2
   if [ -z "$(az aks show -g ${resource_group} -n ${aks_name})" ]; then
     az aks create -g ${resource_group} -n ${aks_name} \
-                  --generate-ssh-keys --agent-count 1 --no-wait
+                  --generate-ssh-keys --node-count 1 --no-wait
   fi
 }
 
