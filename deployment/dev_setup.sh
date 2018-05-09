@@ -36,7 +36,7 @@ export TARGET_ENV=dev
 # Prefix resource group name with 'dev'
 export COMMON_GROUP=${TARGET_ENV}${COMMON_GROUP}${GROUP_SUFFIX}
 export EAST_US_GROUP=${TARGET_ENV}${EAST_US_GROUP}${GROUP_SUFFIX}
-export WEST_EUROPE_GROUP=${TARGET_ENV}${WEST_EUROPE_GROUP}${GROUP_SUFFIX}
+export WEST_US_GROUP=${TARGET_ENV}${WEST_US_GROUP}${GROUP_SUFFIX}
 export JENKINS_GROUP=${JENKINS_GROUP}${GROUP_SUFFIX}
 
 export_acr_details ${COMMON_GROUP}
@@ -48,7 +48,7 @@ export_redis_details ${COMMON_GROUP}
 export_image_storage ${COMMON_GROUP}
 
 export_webapp_details ${EAST_US_GROUP} EAST_US
-export_webapp_details ${WEST_EUROPE_GROUP} WEST_EUROPE
+export_webapp_details ${WEST_US_GROUP} WEST_US
 
 export_jenkins_url ${JENKINS_GROUP} ${ACS_NAME}
 

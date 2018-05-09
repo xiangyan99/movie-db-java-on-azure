@@ -395,8 +395,8 @@ The steps in this section will walk you through the steps to make a simple chang
       --resource-group ${EAST_US_GROUP}
 
    az appservice plan update --number-of-workers 6 \
-      --name ${WEST_EUROPE_WEBAPP_PLAN} \
-      --resource-group ${WEST_EUROPE_GROUP}
+      --name ${WEST_US_WEBAPP_PLAN} \
+      --resource-group ${WEST_US_GROUP}
    ```
 
 ## Sample Application Summary ##

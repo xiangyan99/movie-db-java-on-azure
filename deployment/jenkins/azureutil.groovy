@@ -28,7 +28,7 @@ def prepareEnv(String targetEnv) {
 
     this.config['COMMON_GROUP'] = "${targetEnv}${config.COMMON_GROUP}${config.GROUP_SUFFIX}"
     this.config['EAST_US_GROUP'] = "${targetEnv}${config.EAST_US_GROUP}${config.GROUP_SUFFIX}"
-    this.config['WEST_EUROPE_GROUP'] = "${targetEnv}${config.WEST_EUROPE_GROUP}${config.GROUP_SUFFIX}"
+    this.config['WEST_US_GROUP'] = "${targetEnv}${config.WEST_US_GROUP}${config.GROUP_SUFFIX}"
 
     /**
      * Azure CLI login

@@ -24,7 +24,7 @@ parse_teardown_args "$@"
 # Prefix resource group names with target environment
 c_group=${TARGET_ENV}${COMMON_GROUP}${GROUP_SUFFIX}
 e_us_group=${TARGET_ENV}${EAST_US_GROUP}${GROUP_SUFFIX}
-w_eu_group=${TARGET_ENV}${WEST_EUROPE_GROUP}${GROUP_SUFFIX}
+w_us_group=${TARGET_ENV}${WEST_US_GROUP}${GROUP_SUFFIX}
 jenkins_group=${JENKINS_GROUP}${GROUP_SUFFIX}
 
 # Delete resource groups in parallel
@@ -34,8 +34,8 @@ az group delete -y -n ${c_group} --no-wait
 log_info "\nStart deleting resource group ${e_us_group}..."
 az group delete -y -n ${e_us_group} --no-wait
 
-log_info "\nStart deleting resource group ${w_eu_group}..."
-az group delete -y -n ${w_eu_group} --no-wait
+log_info "\nStart deleting resource group ${w_us_group}..."
+az group delete -y -n ${w_us_group} --no-wait
 
 log_info "\nStart deleting resource group ${jenkins_group}..."
 az group delete -y -n ${jenkins_group} --no-wait
@@ -46,7 +46,7 @@ if [ "${TEARDOWN_NO_WAIT}" != "true" ]; then
 
   az group wait -n ${c_group} --deleted
   az group wait -n ${e_us_group} --deleted
-  az group wait -n ${w_eu_group} --deleted
+  az group wait -n ${w_us_group} --deleted
   az group wait -n ${jenkins_group} --deleted
 
   log_info "\nAll deleted."

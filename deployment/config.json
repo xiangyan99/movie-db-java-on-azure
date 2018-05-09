@@ -37,9 +37,9 @@
       "value": "EUSGrp"
     },
     {
-      "comment": "Resource group name for West Europe region.",
-      "key": "WEST_EUROPE_GROUP",
-      "value": "WEUGrp"
+      "comment": "Resource group name for West US region.",
+      "key": "WEST_US_GROUP",
+      "value": "WUSGrp"
     }
   ],
 
@@ -50,9 +50,9 @@
       "value": "eastus"
     },
     {
-      "comment": "West Europe region.",
-      "key": "WEST_EUROPE",
-      "value": "westeurope"
+      "comment": "West US region.",
+      "key": "WEST_US",
+      "value": "westus"
     }
   ],
 
