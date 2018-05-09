@@ -35,5 +35,5 @@ RUN /usr/local/bin/install-plugins.sh \
     job-dsl \
     groovy \
     azure-app-service \
-    azure-aks \
+    azure-acs \
     azure-function

@@ -50,6 +50,6 @@ export_image_storage ${COMMON_GROUP}
 export_webapp_details ${EAST_US_GROUP} EAST_US
 export_webapp_details ${WEST_EUROPE_GROUP} WEST_EUROPE
 
-export_jenkins_url ${JENKINS_GROUP} ${AKS_NAME}
+export_jenkins_url ${JENKINS_GROUP} ${ACS_NAME}
 
 export_data_api_url ${TARGET_ENV} ${EAST_US_GROUP}

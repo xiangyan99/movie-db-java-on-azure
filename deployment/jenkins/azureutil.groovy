@@ -122,7 +122,7 @@ def deployWebApp(String resGroup, String dockerFilePath) {
 def deployDataApp(String targetEnv, String resGroup) {
     sh """
         # Change context to target Kubernetes cluster
-        context_name=\$(az aks list -g ${resGroup} --query [0].masterProfile.dnsPrefix | tr '[:upper:]' '[:lower:]' | tr -d '"')
+        context_name=\$(az acs list -g ${resGroup} --query [0].masterProfile.dnsPrefix | tr '[:upper:]' '[:lower:]' | tr -d '"')
         kubectl config use-context \${context_name}
 
         # Deploy data app
@@ -140,7 +140,7 @@ def deployDataApp(String targetEnv, String resGroup) {
         kubectl apply -f target/fabric8/namespace.yml
     """
 
-    acsDeploy azureCredentialsId: 'azure-sp', configFilePaths: 'data-app/target/fabric8/deployment.yml,data-app/target/fabric8/service.yml', containerService: 'acs | Kubernetes', enableConfigSubstitution: true, resourceGroupName: resGroup, sshCredentialsId: 'aks-ssh'
+    acsDeploy azureCredentialsId: 'azure-sp', configFilePaths: 'data-app/target/fabric8/deployment.yml,data-app/target/fabric8/service.yml', containerService: 'acs | Kubernetes', enableConfigSubstitution: true, resourceGroupName: resGroup, sshCredentialsId: 'acs-ssh'
 
     sh """
         # Check whether there is any redundant IP address

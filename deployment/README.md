@@ -23,7 +23,7 @@ The steps to setup your development environment are broken into two sections:
 1. Install **kubectl** by running below command:
 
    ```shell
-   sudo az aks install-cli
+   sudo az acs kubernetes install-cli
    ```
 
 1. Install **Homebrew** from <https://brew.sh/>.
@@ -55,7 +55,7 @@ The steps to setup your development environment are broken into two sections:
 1. Install the **Kubernetes CLI (kubectl)** by using the instructions at <https://kubernetes.io/docs/getting-started-guides/ubuntu/>:
 
    ```shell
-   az aks install-cli --install-location .
+   az acs kubernetes install-cli --install-location .
    sudo mv kubectl /usr/local/bin/kubectl
    ```
 
@@ -87,7 +87,7 @@ The steps to setup your development environment are broken into two sections:
 1. Install **kubectl** by running below Azure CLI command with administrator privilege:
 
    ```shell
-   az aks install-cli
+   az acs kubernetes install-cli
    ```
 
 1. Install [Chocolatey](https://chocolatey.org/).
@@ -172,7 +172,7 @@ The steps to setup your development environment are broken into two sections:
 
       * `MYSQL_PASSWORD` will be used to create a MySQL database in Azure, which must meet password complexity requirements; for example, you should use a mixture of uppercase letters, lowercase letters, numbers, and punctuation.
       * The default MySQL admin username is `AzureUser`; you can change it in `~/deployment/config.json`.
-      * `JENKINS_PASSWORD` will be used to deploy a Jenkins cluster in AKS; the Jenkins admin username is `jenkins`.
+      * `JENKINS_PASSWORD` will be used to deploy a Jenkins cluster in ACS; the Jenkins admin username is `jenkins`.
 
 <!--
 

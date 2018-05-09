@@ -20,7 +20,7 @@ In the following sections, you will create a development sandbox environment on 
 
 - web apps in Linux containers on [Azure App Service (AAS)](https://azure.microsoft.com/en-us/services/app-service/)
 
-- Data apps in Kubernetes clusters in the [Azure Container Service (AKS)](https://azure.microsoft.com/en-us/services/container-service/)
+- Data apps in Kubernetes clusters in the [Azure Container Service (ACS)](https://azure.microsoft.com/en-us/services/container-service/)
 
 - [Azure Container Registry (ACR)](https://azure.microsoft.com/en-us/services/container-registry/) for container images
 
@@ -44,7 +44,7 @@ In this basic layout, the following design decisions have been implemented:
 
 - Container images for the web apps are built using Docker and pushed to a managed private Docker registry in ACR, and deployed to Linux containers on AAS.
 
-- The web apps communicate with the data apps running in Kubernetes clusters in AKS.
+- The web apps communicate with the data apps running in Kubernetes clusters in ACS.
 
 - Data apps are REST API apps which store and read data from Azure Database for MySQL, which is a fully managed database as a service; data apps store images into and read images from Azure Storage.
 
@@ -143,7 +143,7 @@ In this basic layout, the following design decisions have been implemented:
    ```
 
 
-### Deploy the internal-facing data app into a Kubernetes cluster in AKS ###
+### Deploy the internal-facing data app into a Kubernetes cluster in ACS ###
 
 
 1. Open a command prompt and navigate to the folder which contains the data app, which is located in the "*~/data-app/*" folder of your repo; this is a Spring Boot app which:
@@ -158,7 +158,7 @@ In this basic layout, the following design decisions have been implemented:
    mvn package docker:build -DpushImage
    ```
 
-1. Deploy the data app to a Kubernetes cluster in AKS [using Maven](https://docs.microsoft.com/en-us/azure/container-service/kubernetes/container-service-deploy-spring-boot-app-using-fabric8-maven-plugin):
+1. Deploy the data app to a Kubernetes cluster in ACS [using Maven](https://docs.microsoft.com/en-us/azure/container-service/kubernetes/container-service-deploy-spring-boot-app-using-fabric8-maven-plugin):
 
    ```shell    
    mvn clean fabric8:resource fabric8:apply
