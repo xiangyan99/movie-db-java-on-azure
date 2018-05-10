@@ -83,9 +83,9 @@ def deployWebApp(String resGroup, String dockerFilePath) {
             script: "az webapp list --resource-group ${resGroup} --query [0].name | tr -d '\"'",
             returnStdout: true
     ).trim()
-    /**
-    * azureWebAppPublish appName: appName, azureCredentialsId: 'azure-sp', dockerFilePath: dockerFilePath, dockerImageName: "${this.acrName}.azurecr.io/web-app", dockerImageTag: '', dockerRegistryEndpoint: [credentialsId: 'acr', url: "https://${this.acrName}.azurecr.io"], filePath: '', publishType: 'docker', resourceGroup: resGroup, slotName: '', sourceDirectory: '', targetDirectory: ''
-    */
+    
+    azureWebAppPublish appName: appName, azureCredentialsId: 'azure-sp', dockerImageName: "${this.acrName}.azurecr.io/web-app", dockerImageTag: '', dockerRegistryEndpoint: [credentialsId: 'acr', url: "https://${this.acrName}.azurecr.io"], publishType: 'docker', resourceGroup: resGroup
+    
     sh """
         data_api_endpoint=\$(az network traffic-manager profile list -g ${config.COMMON_GROUP} --query [0].dnsConfig.fqdn | tr -d '"')
         webapp_id=\$(az resource list -g ${resGroup} --resource-type Microsoft.Web/sites --query [0].id | tr -d '"')
