@@ -32,7 +32,8 @@ node {
   stage('Deploy') {
     // Deploy function app
     dir('function-app') {
-        azureUtil.deployFunctionApp()
+      sh("mvn clean package")
+      sh("mvn azure-functions:deploy")
     }
 
     // Deploy data app
