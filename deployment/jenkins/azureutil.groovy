@@ -78,7 +78,7 @@ def deployFunctionApp() {
     azureFunctionAppPublish azureCredentialsId: 'azure-sp', resourceGroup: config.COMMON_GROUP, appName: appName, filePath: '**/*.jar,**/*.json', sourceDirectory: "target/azure-functions/${appName}"
 }
 
-def deployWebApp(String resGroup, String dockerFilePath, String tag) {
+def deployWebApp(String resGroup, String dockerFilePath) {
     def appName = sh(
             script: "az webapp list --resource-group ${resGroup} --query [0].name | tr -d '\"'",
             returnStdout: true
@@ -102,7 +102,7 @@ def deployWebApp(String resGroup, String dockerFilePath, String tag) {
                                       --docker-registry-server-url http://${acrLoginServer} \\
                                       --docker-registry-server-user ${acrUsername} \\
                                       --docker-registry-server-password ${acrPassword}
-        az webapp config set --ids \${webapp_id} --linux-fx-version "DOCKER|${acrLoginServer}/web-app:${tag}"
+        az webapp config set --ids \${webapp_id} --linux-fx-version "DOCKER|${acrLoginServer}/web-app:${BUILD_ID}"
         az webapp config appsettings set --ids \${webapp_id} \\
                                         --settings  DATA_API_URL=\${data_api_endpoint} \\
                                                     PORT=${config.WEB_APP_CONTAINER_PORT} \\
