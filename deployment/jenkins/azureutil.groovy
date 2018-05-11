@@ -78,7 +78,7 @@ def deployFunctionApp() {
     azureFunctionAppPublish azureCredentialsId: 'azure-sp', resourceGroup: config.COMMON_GROUP, appName: appName, filePath: '**/*.jar,**/*.json', sourceDirectory: "target/azure-functions/${appName}"
 }
 
-def deployWebApp(String resGroup, String dockerFilePath) {
+def deployWebApp(String resGroup, String dockerFilePath, String tag) {
     def appName = sh(
             script: "az webapp list --resource-group ${resGroup} --query [0].name | tr -d '\"'",
             returnStdout: true
@@ -98,11 +98,11 @@ def deployWebApp(String resGroup, String dockerFilePath) {
         redis_password=\$(az redis list-keys -g ${config.COMMON_GROUP} -n \${redis_name} --query primaryKey | tr -d '"')
 
         az webapp config container set --ids \${webapp_id} \\
-                                      --docker-custom-image-name ${acrLoginServer}/web-app \\
+                                      --docker-custom-image-name ${acrLoginServer}/web-app:${tag} \\
                                       --docker-registry-server-url http://${acrLoginServer} \\
                                       --docker-registry-server-user ${acrUsername} \\
                                       --docker-registry-server-password ${acrPassword}
-        az webapp config set --ids \${webapp_id} --linux-fx-version "DOCKER|${acrLoginServer}/web-app"
+        az webapp config set --ids \${webapp_id} --linux-fx-version "DOCKER|${acrLoginServer}/web-app:${tag}"
         az webapp config appsettings set --ids \${webapp_id} \\
                                         --settings  DATA_API_URL=\${data_api_endpoint} \\
                                                     PORT=${config.WEB_APP_CONTAINER_PORT} \\
