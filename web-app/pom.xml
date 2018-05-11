@@ -164,7 +164,7 @@
                     <serverId>${env.ACR_LOGIN_SERVER}</serverId>
                     <registryUrl>https://${env.ACR_LOGIN_SERVER}</registryUrl>
                     <dockerDirectory>src/main/docker/base</dockerDirectory>
-                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <imageName>${docker.image.prefix}/${project.artifactId}:${env.BUILD_ID}</imageName>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
@@ -181,7 +181,7 @@
                         </goals>
                         <configuration>
                             <dockerDirectory>src/main/docker/new-relic</dockerDirectory>
-                            <imageName>${docker.image.prefix}/${project.artifactId}-w-new-relic</imageName>
+                            <imageName>${docker.image.prefix}/${project.artifactId}-w-new-relic:${env.BUILD_ID}</imageName>
                             <buildArgs>
                                 <NEW_RELIC_LICENSE_KEY>${env.NEW_RELIC_LICENSE_KEY}</NEW_RELIC_LICENSE_KEY>
                                 <NEW_RELIC_APP_NAME>${env.WEBAPP_NEW_RELIC_APP_NAME}</NEW_RELIC_APP_NAME>
@@ -212,7 +212,7 @@
                         </goals>
                         <configuration>
                             <dockerDirectory>src/main/docker/overops</dockerDirectory>
-                            <imageName>${docker.image.prefix}/${project.artifactId}-w-overops</imageName>
+                            <imageName>${docker.image.prefix}/${project.artifactId}-w-overops:${env.BUILD_ID}</imageName>
                             <buildArgs>
                                 <OVEROPSSK>${env.OVEROPSSK}</OVEROPSSK>
                             </buildArgs>
@@ -232,7 +232,7 @@
                         </goals>
                         <configuration>
                             <dockerDirectory>src/main/docker/all</dockerDirectory>
-                            <imageName>${docker.image.prefix}/${project.artifactId}-w-all</imageName>
+                            <imageName>${docker.image.prefix}/${project.artifactId}-w-all:${env.BUILD_ID}</imageName>
                             <buildArgs>
                                 <NEW_RELIC_LICENSE_KEY>${env.NEW_RELIC_LICENSE_KEY}</NEW_RELIC_LICENSE_KEY>
                                 <NEW_RELIC_APP_NAME>${env.WEBAPP_NEW_RELIC_APP_NAME}</NEW_RELIC_APP_NAME>
@@ -312,7 +312,7 @@
                         </goals>
                         <configuration>
                             <containerSettings>
-                                <imageName>${docker.image.prefix}/${project.artifactId}-w-new-relic</imageName>
+                                <imageName>${docker.image.prefix}/${project.artifactId}-w-new-relic:${env.BUILD_ID}</imageName>
                                 <serverId>${env.ACR_LOGIN_SERVER}</serverId>
                                 <registryUrl>https://${env.ACR_LOGIN_SERVER}</registryUrl>
                             </containerSettings>
@@ -325,7 +325,7 @@
                         </goals>
                         <configuration>
                             <containerSettings>
-                                <imageName>${docker.image.prefix}/${project.artifactId}-w-overops</imageName>
+                                <imageName>${docker.image.prefix}/${project.artifactId}-w-overops:${env.BUILD_ID}</imageName>
                                 <serverId>${env.ACR_LOGIN_SERVER}</serverId>
                                 <registryUrl>https://${env.ACR_LOGIN_SERVER}</registryUrl>
                             </containerSettings>
@@ -338,7 +338,7 @@
                         </goals>
                         <configuration>
                             <containerSettings>
-                                <imageName>${docker.image.prefix}/${project.artifactId}-w-all</imageName>
+                                <imageName>${docker.image.prefix}/${project.artifactId}-w-all:${env.BUILD_ID}</imageName>
                                 <serverId>${env.ACR_LOGIN_SERVER}</serverId>
                                 <registryUrl>https://${env.ACR_LOGIN_SERVER}</registryUrl>
                             </containerSettings>
