@@ -45,7 +45,7 @@ node {
     //withEnv(["ACR_NAME=${azureUtil.acrName}", "ACR_LOGIN_SERVER=${azureUtil.acrLoginServer}", "ACR_USERNAME=${azureUtil.acrUsername}", "ACR_PASSWORD=${azureUtil.acrPassword}"]) {
     //  sh("cd web-app; mvn azure-webapp:deploy -Dwebapp.resourceGroup=${azureUtil.config.EAST_US_GROUP} -Dwebapp.appName=${azureUtil.config.EAST_US_WEBAPP_NAME}; cd ..")
     //}
-    withEnv("BUILD_ID=${env.BUILD_ID}"){
+    withEnv(["BUILD_ID=${env.BUILD_ID}"]){
       dir('web-app/target') {
         azureUtil.deployWebApp(azureUtil.config.EAST_US_GROUP, "docker/Dockerfile")
         //azureUtil.deployWebApp(azureUtil.config.WEST_US_GROUP, "docker/Dockerfile")
