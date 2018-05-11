@@ -42,9 +42,12 @@ node {
     }
 
     // Deploy web app
-    dir('web-app/target') {
-        //azureUtil.deployWebApp(azureUtil.config.EAST_US_GROUP, "docker/Dockerfile")
-        azureUtil.deployWebApp(azureUtil.config.WEST_US_GROUP, "docker/Dockerfile")
+    withEnv(["ACR_NAME=${azureUtil.acrName}", "ACR_LOGIN_SERVER=${azureUtil.acrLoginServer}", "ACR_USERNAME=${azureUtil.acrUsername}", "ACR_PASSWORD=${azureUtil.acrPassword}"]) {
+      sh("cd web-app; mvn azure-webapp:deploy -Dwebapp.resourceGroup=${azureUtil.config.EAST_US_GROUP} -Dwebapp.appName=${azureUtil.config.EAST_US_WEBAPP_NAME}; cd ..")
     }
+    //dir('web-app/target') {
+    //    //azureUtil.deployWebApp(azureUtil.config.EAST_US_GROUP, "docker/Dockerfile")
+    //    azureUtil.deployWebApp(azureUtil.config.WEST_US_GROUP, "docker/Dockerfile")
+    //}
   }
 }
