@@ -98,7 +98,7 @@ def deployWebApp(String resGroup, String dockerFilePath) {
         redis_password=\$(az redis list-keys -g ${config.COMMON_GROUP} -n \${redis_name} --query primaryKey | tr -d '"')
 
         az webapp config container set --ids \${webapp_id} \\
-                                      --docker-custom-image-name ${acrLoginServer}/web-app:${tag} \\
+                                      --docker-custom-image-name ${acrLoginServer}/web-app:${BUILD_ID} \\
                                       --docker-registry-server-url http://${acrLoginServer} \\
                                       --docker-registry-server-user ${acrUsername} \\
                                       --docker-registry-server-password ${acrPassword}
