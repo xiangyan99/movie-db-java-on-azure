@@ -38,7 +38,7 @@ node {
     // Deploy data app
     withEnv(["ACR_NAME=${azureUtil.acrName}", "ACR_LOGIN_SERVER=${azureUtil.acrLoginServer}", "ACR_USERNAME=${azureUtil.acrUsername}", "ACR_PASSWORD=${azureUtil.acrPassword}"]) {
       azureUtil.deployDataApp(targetEnv, azureUtil.config.EAST_US_GROUP)
-      azureUtil.deployDataApp(targetEnv, azureUtil.config.WEST_US_GROUP)
+      //azureUtil.deployDataApp(targetEnv, azureUtil.config.WEST_US_GROUP)
     }
 
     // Deploy web app
@@ -48,7 +48,7 @@ node {
     withEnv(["BUILD_ID=${env.BUILD_ID}"]){
       dir('web-app/target') {
         azureUtil.deployWebApp(azureUtil.config.EAST_US_GROUP, "docker/Dockerfile")
-        azureUtil.deployWebApp(azureUtil.config.WEST_US_GROUP, "docker/Dockerfile")
+        //azureUtil.deployWebApp(azureUtil.config.WEST_US_GROUP, "docker/Dockerfile")
       }
     }
   }
